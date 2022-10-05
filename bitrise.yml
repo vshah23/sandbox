@@ -1,0 +1,37 @@
+---
+format_version: '11'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+pipelines:
+  build:
+    stages:
+    - build-js: {}
+    - build-android: {}
+stages:
+  build-js:
+    workflows:
+    - build-js: {}
+  build-android:
+    workflows:
+    - build-android: {}
+workflows:
+  build-android:
+    steps:
+    - pull-intermediate-files: {}
+  build-js:
+    steps:
+    - activate-ssh-key@4: {}
+    - git-clone@6: {}
+    - npm@1:
+        inputs:
+        - command: install
+    - npm@1:
+        inputs:
+        - command: run build
+    - deploy-to-bitrise-io:
+        inputs:
+        - pipeline_intermediate_files: "./build:BITRISE_JS_BUNDLE_PATH"
+meta:
+  bitrise.io:
+    stack: linux-docker-android-20.04
+    machine_type_id: elite
