@@ -28,7 +28,7 @@ workflows:
     - npm@1:
         inputs:
         - command: run build
-    - git::https://github.com/bitrise-steplib/deploy-to-bitrise-io.git@vik/switch-to-tar:
+    - git::https://github.com/bitrise-steplib/deploy-to-bitrise-io.git@vik-switch-to-tar:
         inputs:
         - pipeline_intermediate_files: "./build:BITRISE_JS_BUNDLE_PATH"
 meta:
