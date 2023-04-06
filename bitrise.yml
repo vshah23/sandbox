@@ -31,14 +31,15 @@ workflows:
     - xcode-test@4:
         inputs:
         - destination: $TEST_DEVICE
+        - collect_simulator_diagnostics: always
     - deploy-to-bitrise-io@2: {}
   test-ios-13-sim:
     envs:
     - TEST_DEVICE: platform=iOS Simulator,name=iPhone 11,OS=13.7
-    before_run:
+    after_run:
     - _ui-test-sim
   test-ios-14-sim:
     envs:
     - TEST_DEVICE: platform=iOS Simulator,name=iPhone 14,OS=latest
-    before_run:
+    after_run:
     - _ui-test-sim
