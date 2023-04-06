@@ -19,7 +19,12 @@ stages:
     - test-ios-13-sim: {}
     - test-ios-14-sim: {}
 workflows:
+  _setup:
+    steps:
+    - git-clone: {}
   _ui-test-sim:
+    before_run:
+    - _setup
     steps:
     - xcode-build-for-test@1: {}
     - xcode-test@4:
