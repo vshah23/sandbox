@@ -1,37 +1,38 @@
----
-format_version: '11'
+format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: other
-pipelines:
-  build:
-    stages:
-    - build-js: {}
-    - build-android: {}
-stages:
-  build-js:
-    workflows:
-    - build-js: {}
-  build-android:
-    workflows:
-    - build-android: {}
-workflows:
-  build-android:
-    steps:
-    - pull-intermediate-files: {}
-  build-js:
-    steps:
-    - activate-ssh-key@4: {}
-    - git-clone@6: {}
-    - npm@1:
-        inputs:
-        - command: install
-    - npm@1:
-        inputs:
-        - command: run build
-    - git::https://github.com/bitrise-steplib/deploy-to-bitrise-io.git@vik-switch-to-tar:
-        inputs:
-        - pipeline_intermediate_files: "./build:BITRISE_JS_BUNDLE_PATH"
 meta:
   bitrise.io:
-    stack: linux-docker-android-20.04
     machine_type_id: elite
+    stack: linux-docker-android-20.04
+app:
+  envs:
+  - BITRISE_PROJECT_PATH: ./old-ios-test/old-ios-test.xcodeproj
+  - BITRISE_SCHEME: old-ios-testUITests
+pipelines:
+  run-tests:
+    stages:
+    - test: {}
+stages:
+  test:
+    workflows:
+    - test-ios-13-sim: {}
+    - test-ios-14-sim: {}
+workflows:
+  _ui-test-sim:
+    steps:
+    - xcode-build-for-test@1: {}
+    - xcode-test@4:
+        inputs:
+        - destination: $TEST_DEVICE
+    - deploy-to-bitrise-io@2: {}
+  test-ios-13-sim:
+    envs:
+    - TEST_DEVICE: platform=iOS Simulator,name=iPhone 11,OS=13.7
+    before_run:
+      - _ui-test-sim
+  test-ios-14-sim:
+    envs:
+    - TEST_DEVICE: platform=iOS Simulator,name=iPhone 14,OS=latest
+    before_run:
+      - _ui-test-sim
