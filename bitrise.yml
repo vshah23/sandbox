@@ -21,6 +21,7 @@ stages:
 workflows:
   _setup:
     steps:
+    - activate-ssh-key: {}
     - git-clone: {}
   _ui-test-sim:
     before_run:
