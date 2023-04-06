@@ -3,8 +3,8 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: other
 meta:
   bitrise.io:
-    machine_type_id: elite
-    stack: linux-docker-android-20.04
+    machine_type_id: g2-m1.4core
+    stack: osx-xcode-14.3.x-ventura
 app:
   envs:
   - BITRISE_PROJECT_PATH: ./old-ios-test/old-ios-test.xcodeproj
@@ -30,9 +30,9 @@ workflows:
     envs:
     - TEST_DEVICE: platform=iOS Simulator,name=iPhone 11,OS=13.7
     before_run:
-      - _ui-test-sim
+    - _ui-test-sim
   test-ios-14-sim:
     envs:
     - TEST_DEVICE: platform=iOS Simulator,name=iPhone 14,OS=latest
     before_run:
-      - _ui-test-sim
+    - _ui-test-sim
