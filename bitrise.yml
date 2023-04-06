@@ -32,6 +32,7 @@ workflows:
         inputs:
         - destination: $TEST_DEVICE
         - collect_simulator_diagnostics: always
+        - log_formatter: xcodebuild
     - deploy-to-bitrise-io@2: {}
   test-ios-13-sim:
     envs:
